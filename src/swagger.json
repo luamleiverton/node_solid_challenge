@@ -1,0 +1,239 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "SOLID Introduction API",
+    "description": "Challenge Node JS Ignite Course",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["User"],
+        "summary": "Create a user",
+        "description": "Create a new user",
+        "requestBody": {
+          "required": "true",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string"
+                  }
+                },
+                "example": {
+                  "name": "João da Silva",
+                  "description": "j@j.com"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "User already exists",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "error": {
+                      "type": "string"
+                    }
+                  },
+                  "example": {
+                    "error": "User already exists"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["User"],
+        "summary": "List all users",
+        "description": "List all users for admin",
+        "parameters": [{
+          "in": "header",
+          "name": "user_id",
+          "required": true,
+          "schema": {
+              "type": "string",
+              "format": "uuid"
+          },
+          "example": {
+            "id": "uuid"
+          }
+        }],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application.json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "format": "uuid"    
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "admin": {
+                        "type": "boolean"
+                      },
+                      "email": {
+                        "type": "string"
+                      },
+                      "created_at": {
+                        "type": "date",
+                        "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+                        "example": "2019-05-17"
+                      },
+                      "updated_at": {
+                        "type": "date",
+                        "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+                        
+                        "example": "2019-05-17"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["User"],
+        "summary": "Show user profile",
+        "description": "Show profile data of user",
+        "parameters": [
+          {
+          "in": "path",
+          "name": "user_id",
+          "required": "true",
+          "schema": {
+            "type": "string",
+            "format": "uuid",
+            "example": {
+              "id":"uuid"
+            }
+          }
+        }
+        ],
+        "responses": {
+          "400": {
+            "description": "User not found"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "format": "uuid"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "date",
+                      "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+                      "example": "2019-05-17"
+                    },
+                    "updated_at": {
+                      "type": "Date",
+                      "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+                      "example": "2019-05-17"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["User"],
+        "summary": "Update admin status",
+        "description": "Change admin attribute",
+        "parameters": [{
+          "in": "path", 
+          "name": "user_id",
+          "required": true,
+          "schema": {
+                "type": "string",
+                "format": "uuid",
+                "example": {
+                  "id": "uuid"
+                }
+              }
+        }],
+        "responses": {
+          "400": {
+            "description": "User not found"
+          },
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "admin": {
+                      "type": "boolean"
+                    },
+                    "created_at": {
+                      "type": "date",
+                      "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+                      "example": "2019-05-17"
+                    },
+                    "updated_at": {
+                      "type": "date",
+                      "pattern": "/([0-9]{4})-(?:[0-9]{2})-([0-9]{2})/",
+                      "example": "2019-05-17"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }          
+      }
+    }
+  }
+}
